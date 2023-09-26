@@ -74,3 +74,23 @@ Book}|--|{Category
   ![family](https://github.com/KamlR/DataBases/assets/115434090/f8f6aee5-03f8-4c62-a3d3-19241e06919f)
 #### Пояснение:
 - У каждого из родителей может быть много детей, но у каждого ребёнка только одни отец и мать
+
+## Задание 3
+*Смоделируйте E/R-модель в виде E/R диаграммы*
+```
+@startuml
+entity Entity{}
+entity Relationship{}
+entity Attribute{}
+entity Key{}
+entity Role{}
+
+Entity }|--|{Relationship
+Entity }|--|{Attribute
+Entity }|--||Key
+Entity }|--|{Role
+@enduml
+```
+### Отображение
+<img width="654" alt="Снимок экрана 2023-09-26 в 20 11 20" src="https://github.com/KamlR/DataBases/assets/115434090/620b3033-02b9-45e7-afab-b4e670189b48">
+
