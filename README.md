@@ -45,4 +45,4 @@ Person: {[**PersonID**, MotherID, FatherID]}
 - Patient: {[**PatientNr**, Name, Disease, PersnNr, RoomNr, AdmissionNr]}
 - Station: {[**StatNr**, Name]}
 - Room: {[**RoomNr**, Beds]}
-- Admission: [{AdmisionNr, AdmissionFrom(PersNr), AdmisionTo(PatientNr)}]
+- Admission: [{**AdmisionNr**, AdmissionFrom(PersNr), AdmisionTo(PatientNr)}]
