@@ -46,3 +46,4 @@ where borrowing.isbn in (
 and reader.lastname != 'Иванов' and reader.firstname != 'Иван'
 ```
 <img width="300" alt="Снимок экрана 2023-11-01 в 15 30 30" src="https://github.com/KamlR/DataBases/assets/115434090/fb297252-3ee5-419e-bea4-cf27a8d45acb">
+
