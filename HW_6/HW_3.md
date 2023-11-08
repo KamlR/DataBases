@@ -46,7 +46,17 @@ limit 1;
 <img width="300" alt="Снимок экрана 2023-11-08 в 12 06 26" src="https://github.com/KamlR/DataBases/assets/115434090/e45e9f3d-d8c2-4106-a7c8-a3259f149151">
 
 ### Какие читатели забронировали все книги (не копии), написанные "Марком Твеном"?
+Я написала часть запроса
+``` sql
+select * from reader
+join borrowing on reader.id = borrowing.readernr
+where borrowing.isbn in (select isbn from book where author like 'Марк Твен');
+```
+Он выводит:
 
+<img width="400" alt="Снимок экрана 2023-11-08 в 14 57 46" src="https://github.com/KamlR/DataBases/assets/115434090/8230590b-d793-4ad9-a35b-8a421943cd39">
+
+А вот как вывести, чтобы читателю соотв. все книги Марка Твена, я не поняла
 ### Какие книги имеют более одной копии? 
 ``` sql
 select title, count(copynumber) as count_copy from book
