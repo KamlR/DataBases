@@ -30,10 +30,11 @@ where pagesnum > (select avg(pagesnum) from book)
 
 ### Какие категории содержат подкатегории?
 ``` sql
-select distinct parentcat from bookcat
+select distinct parentcat from category
 where parentcat is not null;
 ```
-У меня почему-то не видит parentcat
+<img width="176" alt="Снимок экрана 2023-11-08 в 13 57 13" src="https://github.com/KamlR/DataBases/assets/115434090/4271034a-7382-4a43-9a40-700e1ef26caf">
+
 
 ### У какого автора (предположим, что имена авторов уникальны) написано максимальное количество книг?
 ``` sql
@@ -62,3 +63,36 @@ order by pubyear
 limit 10
 ```
 <img width="550" alt="Снимок экрана 2023-11-08 в 13 45 31" src="https://github.com/KamlR/DataBases/assets/115434090/2f73fda0-ec7f-4235-99ff-8255f92b5773">
+
+### Перечислите все категории в категории “Спорт” (с любым уровнем вложености).
+``` sql
+select categoryname from category
+where parentcat like 'Sports'
+```
+<img width="213" alt="Снимок экрана 2023-11-08 в 13 49 40" src="https://github.com/KamlR/DataBases/assets/115434090/1a2f5805-65c0-4bc1-8825-e0b071ea10a3">
+
+
+## Задача 2
+### Добавьте запись о бронировании читателем ‘Василеем Петровым’ книги с ISBN 123456 и номером копии 4.
+Там с isbn 123456 уже была запись, добавить не вышло, я просто поменяла isbn на 123459
+``` sql
+insert into borrowing (readernr, isbn, copynumber, returndate)
+VALUES (
+    (SELECT reader.id FROM Reader WHERE LastName = 'Петров' AND FirstName = 'Василий'),
+    '123459', 4, '2032-07-20'
+);
+```
+
+### Удалить все книги, год публикации которых превышает 2000 год.
+``` sql
+delete from book where pubyear > 2000;
+```
+### Измените дату возврата для всех книг категории "Базы данных", начиная с 01.01.2016, чтобы они были в заимствовании на 30 дней дольше (предположим, что в SQL можно добавлять числа к датам).
+``` sql
+update borrowing
+set returndate = returndate + 30
+where isbn in ( select isbn from bookcat where categoryname like 'Базы данных')
+and returndate > 2016-01-01;
+```
+
+
