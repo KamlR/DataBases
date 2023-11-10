@@ -33,7 +33,6 @@ CREATE TABLE Income (
     user_id INTEGER,
     date INTEGER,
     suma INTEGER,
-    FOREIGN KEY (user_id) REFERENCES User(user_id)
 );
 ```
 ## Задание 2
