@@ -1,4 +1,4 @@
-# Midterm
+# Midterm (Мавлетова Карина Радиковна, БПИ216)
 ## Задание 1
 ``` sql
 -- Создание таблицы User
@@ -35,7 +35,31 @@ CREATE TABLE Income (
     suma INTEGER,
     FOREIGN KEY (user_id) REFERENCES User(user_id)
 );
+```
 ## Задание 2
+Сразу скажу, что в заданиях используются формулировки, где нужно "для конкретной семьи", "между конкретными датами", для этого я просто использовала specified 
+#### Запрос 1
+``` sql
+SELECT
+    Users.user_id,
+    Users.name AS user_name,
+    Spendings.spending_id,
+    Categories.name AS category_name,
+    Spendings.suma,
+    Spendings.date
+FROM
+    Users
+JOIN Spendings ON Users.user_id = Spendings.user_id
+JOIN Categories ON Spendings.category_id = Categories.category_id
+LEFT JOIN Budgets ON Users.user_id = Budgets.user_id
+                AND Spendings.category_id = Budgets.category_id
+                AND Spendings.date BETWEEN Budgets.start_date AND Budgets.end_date
+WHERE
+    Users.family_id = 'specified_family_id'
+    AND Spendings.date BETWEEN 'start_date' AND 'end_date'
+    AND Budgets.id IS NULL;
+
+```
 #### Запрос 2
 ``` sql
 SELECT
