@@ -48,3 +48,50 @@ END;
 
 CALL ADD_JOB_HIST(106, 'SY_ANAL');
 ```
+
+## Задание 3
+``` sql
+CREATE PROCEDURE UPD_JOBSAL (IN job_id VARCHAR(10), IN new_min_salary DECIMAL(10,2), IN new_max_salary
+DECIMAL(10,2))
+BEGIN
+    -- Если ресурс будет заблокирован
+    DECLARE resource_busy_error BOOLEAN DEFAULT FALSE;
+    -- Если минимальная зп окажется больше максимальной
+    DECLARE invalid_salary_error BOOLEAN DEFAULT FALSE;
+
+    -- Если вдруг строка будет заблокирована
+    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
+        SET resource_busy_error = TRUE;
+
+    -- Проверка на недопустимые значения зарплат
+    IF new_min_salary > new_max_salary THEN
+        SET invalid_salary_error = TRUE;
+    END IF;
+
+    -- Отключение триггеров
+    DISABLE TRIGGER ALL;
+
+    -- Попытка обновления минимальной и максимальной зарплаты
+    IF NOT invalid_salary_error THEN
+        UPDATE JOBS
+        SET MIN_SALARY = new_min_salary, MAX_SALARY = new_max_salary
+        WHERE JOB_ID = job_id;
+    ELSE
+        SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = ='Минимальная зарпалата не может быть выше макс.';
+    END IF;
+
+    -- Проверка наличия заблокированной строки в таблице JOBS
+    IF resource_busy_error THEN
+        SIGNAL SQLSTATE '-54'
+            SET MESSAGE_TEXT = 'Строка, которую вы хотели обновить заблокирована';
+    END IF;
+
+    -- Включение триггеров
+    ENABLE TRIGGER ALL;
+END;
+
+CALL UPD_JOBSAL('SY_ANAL', 7000, 140);
+
+CALL UPD_JOBSAL('SY_ANAL', 8000, 7000);
+```
